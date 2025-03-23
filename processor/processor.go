@@ -16,9 +16,13 @@ import (
 )
 
 var (
-	dynamoClient *dynamodb.Client
+	dynamoClient DynamoDBAPI
 	tableName    = os.Getenv("DYNAMODB_TABLE")
 )
+
+type DynamoDBAPI interface {
+	BatchWriteItem(ctx context.Context, params *dynamodb.BatchWriteItemInput, optFns ...func(*dynamodb.Options)) (*dynamodb.BatchWriteItemOutput, error)
+}
 
 func init() {
 	cfg, err := config.LoadDefaultConfig(context.TODO())
